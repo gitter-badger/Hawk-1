@@ -42,10 +42,11 @@ Compilation parts
 
 	Pass 2:
 		Constant folding
+		Function inlining
 		Bytecode generation (i.e. x + y -> addi 1 2 3)
 
 	Pass 3:
-		Bytecode optimisation
+		Bytecode optimisation (need to think how, first...)
 
 Done:
 	Dead code removal detection (isSourceStatementTerminal( statement ))

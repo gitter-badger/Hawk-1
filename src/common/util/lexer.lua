@@ -106,6 +106,7 @@ local bytecode_symbols = {
 	[ "(" ]		= true;
 	[ ")" ]		= true;
 	[ "~~" ]	= true;
+	[ ";" ]		= true;
 }
 
 local function newLexer( text, source )

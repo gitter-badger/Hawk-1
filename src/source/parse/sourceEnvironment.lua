@@ -26,12 +26,14 @@ local function newSourceEnvironment()
 	local environment = {}
 	local namespace = {}
 	local using = { { "std" } }
+	local scope = {}
 
 	local env = {}
 
 	function env:pushNamespace( name )
 		namespace[#namespace + 1] = name
 		using[#using + 1] = {}
+		environment[self:getNamespace()] = "namespace"
 	end
 
 	function env:popNamespace()
@@ -39,7 +41,7 @@ local function newSourceEnvironment()
 		using[#using] = nil
 	end
 
-	function env:use( name )
+	function env:using( name )
 		using[#using][#using[#using] + 1] = name
 	end
 
@@ -47,14 +49,29 @@ local function newSourceEnvironment()
 		return table.concat( namespace, "::" )
 	end
 
-	function env:addEnum( name )
+	function env:addToEnvironment( name, value )
 		local prefix = #namespace == 0 and "" or table.concat( namespace, "::" ) .. "::"
-		environment[prefix .. name] = "enum"
+		environment[prefix .. name] = value
+	end
+
+	function env:push()
+		scope[#scope + 1] = {}
+	end
+
+	function env:pop()
+		scope[#scope] = nil
+	end
+
+	function env:definelocal( name )
+		scope[#scope][name] = true
+	end
+
+	function env:addEnum( name )
+		return env:addToEnvironment( name, "enum" )
 	end
 
 	function env:addClass( name )
-		local prefix = #namespace == 0 and "" or table.concat( namespace, "::" ) .. "::"
-		environment[prefix .. name] = "class"
+		return env:addToEnvironment( name, "class" )
 	end
 
 	function env:addType( name )

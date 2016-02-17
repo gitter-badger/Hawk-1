@@ -5,7 +5,7 @@
  -- TYPENAME Identifier {TYPEMOD} FDEFARGS ~~ BYTECODE ~~
 
  -- FDEFARGS:
- -- 
+ -- dsagfsdghjk
 
 local function parseSourceFunctionDefinition( session, source, line, typename, name, typemod )
 	local lexer = session.lexer
