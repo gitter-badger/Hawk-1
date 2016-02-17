@@ -105,8 +105,11 @@ local bytecode_symbols = {
 	[ "}" ]		= true;
 	[ "(" ]		= true;
 	[ ")" ]		= true;
-	[ "~~" ]	= true;
 	[ ";" ]		= true;
+}
+
+local escape_characters = {
+	["n"] = "\n", ["0"] = "\0", ["r"] = "\r";
 }
 
 local function newLexer( text, source )
@@ -278,8 +281,8 @@ local function newLexer( text, source )
 	end
 
 	function lexer:get()
-		self:back()
-		return self:next()
+		bIndex = bIndex - 1
+		return getNextToken()
 	end
 
 	function lexer:throw( err )

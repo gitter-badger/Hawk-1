@@ -1,5 +1,6 @@
 
  -- 'import' ( Identifier | '*' )  {'.' ( Identifier | '*' ) } ';'
+ -- TODO: 'import' String ';'
 
 local function parseSourceImportStatement( session, source, line )
 	local lexer = session.lexer

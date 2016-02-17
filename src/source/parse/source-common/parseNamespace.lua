@@ -3,7 +3,7 @@
 
 local function parseSourceNamespace( session )
 	local lexer = session.lexer
-	local name = lexer:test "Identifier" and lexer:next().value or lexer:throw "expected namespace name"
+	local name = parseSourceName( session )
 	local definitions = { type = "namespace", name = name }
 
 	session.environment:pushNamespace( name )

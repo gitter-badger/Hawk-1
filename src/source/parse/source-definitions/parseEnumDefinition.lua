@@ -15,7 +15,7 @@ local function parseSourceEnumDefinition( session, source, line )
 	return lexer:consume( "Symbol", "}" ) and {
 		source = source, line = line;
 		type = "enum";
-		name = name;
+		name = session.environment:resolve( name );
 		value = body;
 	} or lexer:throw "expected '}'"
 end

@@ -10,6 +10,10 @@ namespace std {
 	class double;
 	class string;
 
+	class void {
+
+	}
+
 	class bool {
 		bool operator && (bool);
 		bool operator || (bool);
@@ -17,20 +21,20 @@ namespace std {
 	}
 
 	class byte {
-		bool operator > (byte); // ~~ body: ltb 2 1 0 ~~
-		bool operator >= (byte); // ~~ body: lteb 2 1 0 ~~
-		bool operator < (byte); // ~~ body: ltb 1 2 0 ~~
-		bool operator <= (byte); // ~~ body: lteb 1 2 0 ~~
+		bool operator > (byte); // ~~ body: ltb 2 1 0 }
+		bool operator >= (byte); // ~~ body: lteb 2 1 0 }
+		bool operator < (byte); // ~~ body: ltb 1 2 0 }
+		bool operator <= (byte); // ~~ body: lteb 1 2 0 }
 
-		bool operator > (int); // ~~ body: btoi 1 1; lti 2 1 0 ~~
-		bool operator >= (int); // ~~ body: btoi 1 1; ltei 2 1 0 ~~
-		bool operator < (int); // ~~ body: btoi 1 1; lti 1 2 0 ~~
-		bool operator <= (int); // ~~ body: btoi 1 1; ltei 1 2 0 ~~
+		bool operator > (int); // ~~ body: btoi 1 1; lti 2 1 0 }
+		bool operator >= (int); // ~~ body: btoi 1 1; ltei 2 1 0 }
+		bool operator < (int); // ~~ body: btoi 1 1; lti 1 2 0 }
+		bool operator <= (int); // ~~ body: btoi 1 1; ltei 1 2 0 }
 
-		bool operator > (double); // ~~ body: btod 1 1; ltd 2 1 0 ~~
-		bool operator >= (double); // ~~ body: btod 1 1; lted 2 1 0 ~~
-		bool operator < (double); // ~~ body: btod 1 1; ltd 1 2 0 ~~
-		bool operator <= (double); // ~~ body: btod 1 1; lted 1 2 0 ~~
+		bool operator > (double); // ~~ body: btod 1 1; ltd 2 1 0 }
+		bool operator >= (double); // ~~ body: btod 1 1; lted 2 1 0 }
+		bool operator < (double); // ~~ body: btod 1 1; ltd 1 2 0 }
+		bool operator <= (double); // ~~ body: btod 1 1; lted 1 2 0 }
 
 		int operator + (int);
 		int operator - (int);
@@ -65,22 +69,22 @@ namespace std {
 		int operator << (int);
 		int operator >> (int);
 
-		int operator ~ ();
+		byte operator ~ ();
 	}
 
 	class int {
 		int random();
 
 		// the following should work when I add in inline bytecode parsing
-		bool operator > (int); // ~~ body: lti 2 1 0 ~~
-		bool operator >= (int); // ~~ body: ltei 2 1 0 ~~
-		bool operator < (int); // ~~ body: lti 1 2 0 ~~
-		bool operator <= (int); // ~~ body: ltei 1 2 0 ~~
+		bool operator > (int); // ~~ body: lti 2 1 0 }
+		bool operator >= (int); // ~~ body: ltei 2 1 0 }
+		bool operator < (int); // ~~ body: lti 1 2 0 }
+		bool operator <= (int); // ~~ body: ltei 1 2 0 }
 
-		bool operator > (double); // ~~ body: itod 1 1; ltd 2 1 0 ~~
-		bool operator >= (double); // ~~ body: itod 1 1; lted 2 1 0 ~~
-		bool operator < (double); // ~~ body: itod 1 1; ltd 1 2 0 ~~
-		bool operator <= (double); // ~~ body: itod 1 1; lted 1 2 0 ~~
+		bool operator > (double); // ~~ body: itod 1 1; ltd 2 1 0 }
+		bool operator >= (double); // ~~ body: itod 1 1; lted 2 1 0 }
+		bool operator < (double); // ~~ body: itod 1 1; ltd 1 2 0 }
+		bool operator <= (double); // ~~ body: itod 1 1; lted 1 2 0 }
 
 		int operator + (int);
 		int operator - (int);
@@ -112,20 +116,20 @@ namespace std {
 		int ceil();
 		float round(int = 0);
 
-		bool operator > (float); // ~~ body: ltf 2 1 0 ~~
-		bool operator >= (float); // ~~ body: ltef 2 1 0 ~~
-		bool operator < (float); // ~~ body: ltf 1 2 0 ~~
-		bool operator <= (float); // ~~ body: ltef 1 2 0 ~~
+		bool operator > (float); // ~~ body: ltf 2 1 0 }
+		bool operator >= (float); // ~~ body: ltef 2 1 0 }
+		bool operator < (float); // ~~ body: ltf 1 2 0 }
+		bool operator <= (float); // ~~ body: ltef 1 2 0 }
 
-		bool operator > (int); // ~~ body: ftoi 1 1; lti 2 1 0 ~~
-		bool operator >= (int); // ~~ body: ftoi 1 1; ltei 2 1 0 ~~
-		bool operator < (int); // ~~ body: ftoi 1 1; lti 1 2 0 ~~
-		bool operator <= (int); // ~~ body: ftoi 1 1; ltei 1 2 0 ~~
+		bool operator > (int); // ~~ body: ftoi 1 1; lti 2 1 0 }
+		bool operator >= (int); // ~~ body: ftoi 1 1; ltei 2 1 0 }
+		bool operator < (int); // ~~ body: ftoi 1 1; lti 1 2 0 }
+		bool operator <= (int); // ~~ body: ftoi 1 1; ltei 1 2 0 }
 		
-		bool operator > (double); // ~~ body: ftod 1 1; ltd 2 1 0 ~~
-		bool operator >= (double); // ~~ body: ftod 1 1; lted 2 1 0 ~~
-		bool operator < (double); // ~~ body: ftod 1 1; ltd 1 2 0 ~~
-		bool operator <= (double); // ~~ body: ftod 1 1; lted 1 2 0 ~~
+		bool operator > (double); // ~~ body: ftod 1 1; ltd 2 1 0 }
+		bool operator >= (double); // ~~ body: ftod 1 1; lted 2 1 0 }
+		bool operator < (double); // ~~ body: ftod 1 1; ltd 1 2 0 }
+		bool operator <= (double); // ~~ body: ftod 1 1; lted 1 2 0 }
 
 		float operator + (int);
 		float operator - (int);
@@ -156,15 +160,15 @@ namespace std {
 		int ceil();
 		double round(int = 0);
 
-		bool operator > (int); // ~~ body: dtoi 1 1; lti 2 1 0 ~~
-		bool operator >= (int); // ~~ body: dtoi 1 1; ltei 2 1 0 ~~
-		bool operator < (int); // ~~ body: dtoi 1 1; lti 1 2 0 ~~
-		bool operator <= (int); // ~~ body: dtoi 1 1; ltei 1 2 0 ~~
+		bool operator > (int); // ~~ body: dtoi 1 1; lti 2 1 0 }
+		bool operator >= (int); // ~~ body: dtoi 1 1; ltei 2 1 0 }
+		bool operator < (int); // ~~ body: dtoi 1 1; lti 1 2 0 }
+		bool operator <= (int); // ~~ body: dtoi 1 1; ltei 1 2 0 }
 		
-		bool operator > (double); // ~~ body: ltd 2 1 0 ~~
-		bool operator >= (double); // ~~ body: lted 2 1 0 ~~
-		bool operator < (double); // ~~ body: ltd 1 2 0 ~~
-		bool operator <= (double); // ~~ body: lted 1 2 0 ~~
+		bool operator > (double); // ~~ body: ltd 2 1 0 }
+		bool operator >= (double); // ~~ body: lted 2 1 0 }
+		bool operator < (double); // ~~ body: ltd 1 2 0 }
+		bool operator <= (double); // ~~ body: lted 1 2 0 }
 
 		float operator + (int);
 		float operator - (int);
@@ -206,4 +210,10 @@ namespace std {
 		string operator * (int);
 	}
 
+	namespace console {
+
+		void print(string); // things like these will be sorted out compile-time
+		void write(string);
+
+	}
 }

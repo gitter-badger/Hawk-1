@@ -3,13 +3,17 @@
 
 local function parseSourceUsingStatement( session, source, line )
 	local lexer = session.lexer
+	local home = lexer:mark()
 	local name = parseSourceName( session ) or lexer:throw "expected source name"
 
-	session.environment:use( name )
+	local ok, err = session.environment:using( name )
 
-	return lexer:consume( "Symbol", ";" ) and {
-		source = source, line = line;
-		type = "using";
-		value = name;
-	} or lexer:throw "expected ';'"
+	if not ok then
+		lexer:home()
+		lexer:throw( err )
+	end
+
+	if not lexer:consume( "Symbol", ";" ) then
+		lexer:throw "expected ';'"
+	end
 end

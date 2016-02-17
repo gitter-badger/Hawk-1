@@ -1,27 +1,4 @@
 
-local function flatten( t )
-	local o = {}
-	for i = 1, #t do
-		for n = 1, #t[i] do
-			o[#o + 1] = t[i][n]
-		end
-	end
-	return o
-end
-
-local function add( t, v )
-	t[#t + 1] = v
-	return t
-end
-
-local function lookup( t, v, m )
-	if t[v] then return t[v] end
-	for i = 1, #m do
-		if t[m[i] .. "::" .. v] then return t[m[i] .. "::" .. v] end
-	end
-	return false
-end
-
 local function newSourceEnvironment()
 	local environment = {}
 	local namespace = {}
@@ -42,7 +19,17 @@ local function newSourceEnvironment()
 	end
 
 	function env:using( name )
-		using[#using][#using[#using] + 1] = name
+		local res = self:resolve( name )
+		if res then
+			if self:getEnvironmentType( res ) == "namespace" then
+				using[#using][#using[#using] + 1] = res
+				return true
+			else
+				return false, "expected namespace"
+			end
+		else
+			return false, "undefined reference"
+		end
 	end
 
 	function env:getNamespace()
@@ -52,49 +39,71 @@ local function newSourceEnvironment()
 	function env:addToEnvironment( name, value )
 		local prefix = #namespace == 0 and "" or table.concat( namespace, "::" ) .. "::"
 		environment[prefix .. name] = value
+		return prefix .. name
 	end
 
 	function env:push()
 		scope[#scope + 1] = {}
+		using[#using + 1] = {}
 	end
 
 	function env:pop()
 		scope[#scope] = nil
+		using[#using] = nil
 	end
 
 	function env:definelocal( name )
-		scope[#scope][name] = true
+		if #scope == 0 then
+			if #namespace == 0 then
+				environment[name] = "value"
+			else
+				environment[self:getNamespace() .. "::" .. name] = "value"
+			end
+		else
+			scope[#scope][name] = true
+		end
 	end
 
 	function env:addEnum( name )
 		return env:addToEnvironment( name, "enum" )
 	end
 
+	function env:declareClass( name )
+		return env:addToEnvironment( name, "classdecl" )
+	end
+
 	function env:addClass( name )
 		return env:addToEnvironment( name, "class" )
 	end
 
-	function env:addType( name )
-		local prefix = #namespace == 0 and "" or table.concat( namespace, "::" ) .. "::"
-		environment[prefix .. name] = "type"
-	end
-
-	function env:isType( name )
-		local t = lookup( environment, name, add( flatten( using ), table.concat( namespace, "." ) ) )
-		return t == "class" or t == "enum" or t == "type"
-	end
-
-	function env:isClass( name )
-		return lookup( environment, name, add( flatten( using ), table.concat( namespace, "." ) ) ) == "class"
-	end
-
 	function env:addInterface( name )
-		local prefix = #namespace == 0 and "" or table.concat( namespace, "::" ) .. "::"
-		environment[prefix .. name] = "interface"
+		return env:addToEnvironment( name, "interface" )
 	end
 
-	function env:isInterface( name )
-		return lookup( environment, name, add( flatten( using ), table.concat( namespace, "." ) ) ) == "interface"
+	function env:getEnvironmentType( name )
+		return environment[name]
+	end
+
+	function env:resolve( name )
+		for i = #scope, 1, -1 do
+			if scope[i][name] then
+				return name
+			end
+		end
+
+		if #namespace > 0 and environment[self:getNamespace() .. "::" .. name] then
+			return self:getNamespace() .. "::" .. name
+		elseif #namespace == 0 and environment[name] then
+			return name
+		end
+		
+		for i = #using, 1, -1 do
+			for n = #using[i], 1, -1 do
+				if environment[using[i][n] .. "::" .. name] then
+					return using[i][n] .. "::" .. name
+				end
+			end
+		end
 	end
 
 	return env

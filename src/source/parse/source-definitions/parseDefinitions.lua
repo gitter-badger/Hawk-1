@@ -6,12 +6,9 @@ local function parseSourceDefinitions( session, source, line, typename, name, mo
 	local definitions = { type = "definitions" }
 	local value
 
-	if lexer:consume( "Symbol", ";" ) then
-		definitions[1] = { typename = typename, name = name, modifiers = modifiers, source = source, line = line }
-		return definitions
-	end
-
 	while not lexer:isEOF() do
+	
+		session.environment:definelocal( name )
 
 		definitions[#definitions + 1] = { typename = typename, name = name, modifiers = modifiers, value = lexer:consume( "Symbol", "=" ) and parseSourceExpression( session ), source = source, line = line }
 
@@ -22,6 +19,7 @@ local function parseSourceDefinitions( session, source, line, typename, name, mo
 
 		elseif lexer:consume( "Symbol", ";" ) then
 			return definitions
+
 		else
 			return lexer:throw "expected ';'"
 		end

@@ -5,7 +5,7 @@
 
 local function parseSourceClassBody( session, classname )
 	local lexer = session.lexer
-	local mode = "private"
+	local mode = "public"
 	local private = {}
 	local public = {}
 	local static_private = {}
@@ -33,9 +33,9 @@ local function parseSourceClassBody( session, classname )
 				overrides = parseSourceImplementationList( session )
 			end
 			
-			if lexer:consume( "Keyword", "public" ) then
+			if not consumed and lexer:consume( "Keyword", "public" ) then
 				this_mode = "public"
-			elseif lexer:consume( "Keyword", "private" ) then
+			elseif not consumed and lexer:consume( "Keyword", "private" ) then
 				this_mode = "private"
 			end
 
@@ -50,6 +50,11 @@ local function parseSourceClassBody( session, classname )
 			local source = lexer:get().source
 			local line = lexer:get().line
 
+			if this_mode == "public" then
+				session.environment:push()
+				session.environment:definelocal "self"
+			end
+
 			if parseSourceName( session ) == classname and lexer:consume( "Symbol", "(" ) then
 				t[#t + 1] = parseSourceFunctionDefinition( session, source, line, classname, classname, {} )
 				t[#t].overrides = overrides
@@ -57,6 +62,10 @@ local function parseSourceClassBody( session, classname )
 				lexer:home()
 				t[#t + 1] = parseSourceDefinition( session, true )
 				t[#t].overrides = overrides
+			end
+
+			if this_mode == "public" then
+				session.environment:pop()
 			end
 		end
 	end

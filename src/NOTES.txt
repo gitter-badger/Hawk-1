@@ -31,6 +31,18 @@ Try syntax improvement
 	try f;
 	catch an error print( error );
 
+Grrrr need to do more with the class name definition
+
+	namespace A {
+		class X {}
+	}
+
+	using A;
+
+	namespace A::B {
+		class X {}
+	}
+
 Compilation parts
 
 	Pass 1:

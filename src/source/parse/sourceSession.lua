@@ -73,6 +73,7 @@ local function newSourceSession( path )
 	end
 
 	session:addstr( header, "std" )
+	importlist = {}
 
 	return session
 end

@@ -7,6 +7,11 @@ local function parseSourceInterfaceDefinition( session, source, line )
 	local implements = {}
 	local body
 
+	if session.environment:resolve( name ) then
+		lexer:back()
+		lexer:throw( "name '" .. name .. "' cannot be overwritten" )
+	end
+
 	session.environment:addInterface( name )
 
 	if lexer:consume( "Keyword", "implements" ) then
@@ -24,7 +29,7 @@ local function parseSourceInterfaceDefinition( session, source, line )
 	return {
 		source = source, line = line;
 		type = "interface";
-		name = name;
+		name = session.environment:resolve( name );
 		implements = implements;
 		body = body;
 	}

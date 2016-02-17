@@ -42,6 +42,8 @@ local function parseSourceFunctionDefinition( session, source, line, typename, n
 		end
 	end
 
+	if namegiven == nil then namegiven = true end
+
 	if lexer:consume( "Symbol", "=" ) then
 		local expr = parseSourceExpression( session );
 		return lexer:consume( "Symbol", ";" ) and {
@@ -58,7 +60,16 @@ local function parseSourceFunctionDefinition( session, source, line, typename, n
 		-- return
 	end
 
+	session.environment:push()
+
+	for i = 1, #parameters do
+		session.environment:definelocal( parameters[i].name )
+	end
+
 	local body = not lexer:consume( "Symbol", ";" ) and ( namegiven and parseSourceBlock( session ) or lexer:throw "cannot parse block with un-named parameters" )
+
+	session.environment:pop()
+	session.environment:definelocal( name )
 
 	return {
 		source = source, line = line;

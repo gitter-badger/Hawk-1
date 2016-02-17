@@ -4,14 +4,23 @@
 local function parseSourceNewStatement( session, source, line )
 	local lexer = session.lexer
 	local start = lexer:mark()
-	local typename = parseSourceName( session )
+	local typename, err = parseSourceTypename( session )
+	local type = session.environment:getEnvironmentType( typename )
+
+	if not typename then
+		lexer:throw( err )
+	elseif type == "classdecl" then
+		lexer:home()
+		lexer:throw "cannot instantiate a class declaration"
+	elseif type == "enum" then
+		lexer:home()
+		lexer:throw "cannot instantiate an enum"
+	end
+
 	local objectname = lexer:test "Identifier" and lexer:next().value or lexer:throw "expected object name"
 	local paramlist = lexer:consume( "Symbol", "(" ) and parseSourceExpressionList( session, ")" ) or {}
 
-	if not session.environment:isType( typename ) then
-		lexer:home()
-		lexer:throw "invalid typename"
-	end
+	session.environment:definelocal( objectname )
 
 	return lexer:consume( "Symbol", ";" ) and {
 		source = source, line = line;
