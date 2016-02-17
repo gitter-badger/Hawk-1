@@ -86,19 +86,13 @@ local function newSourceCompilerEnvironment()
 	end
 
 	function env:lookupType( name )
-		if name:find "::" then
-			local namespace = self:lookupNamespace( name:match "^(.+)::" )
-			return namespace and namespaces[namespace]:getClass( name )
-		else
-			for i = #scope_stack, 1, -1 do
-				local v = scope_stack[i]:getClass( name )
-				if v then return v end
-			end
-			for i, v in ipairs( flattenNamespaces() ) do
-				local v = namespaces[v]:getClass( name )
-				if v then return v end
-			end
-		end
+		local v = self:lookup( name )
+		return v and v.instance
+	end
+
+	function env:lookupInterface( name )
+		local v = self:lookup( name )
+		return v and v.isInterface and v
 	end
 
 	function env:lookup( name )

@@ -1,5 +1,5 @@
 
-local keywords = {
+local source_keywords = {
 	[ "import" ]		= true;
 	[ "if" ]			= true;
 	[ "else" ]			= true;
@@ -37,7 +37,16 @@ local keywords = {
 	[ "case" ]			= true;
 }
 
-local symbols = {
+local bytecode_keywords = {
+	[ "class" ]			= true;
+	[ "extends" ]		= true;
+	[ "const" ]			= true;
+	[ "block" ]			= true;
+	[ "namespace" ]		= true;
+	[ "body" ]			= true;
+}
+
+local source_symbols = {
 	[ "=" ]		= true;
 	[ "+" ]		= true;
 	[ "-" ]		= true;
@@ -87,9 +96,19 @@ local symbols = {
 	[ "->" ]	= true;
 	[ ".." ]	= true;
 	[ "::" ]	= true;
+	[ "~~" ]	= true;
 }
 
-local function newSourceLexer( text, source )
+local bytecode_symbols = {
+	[ ":" ]		= true;
+	[ "{" ]		= true;
+	[ "}" ]		= true;
+	[ "(" ]		= true;
+	[ ")" ]		= true;
+	[ "~~" ]	= true;
+}
+
+local function newLexer( text, source )
 	local lexer = {}
 	local line = 1
 	local position = 1
@@ -97,6 +116,7 @@ local function newSourceLexer( text, source )
 	local bIndex = 0
 	local getNextToken
 	local stack = {}
+	local lexingSourceCode = true
 
 	local function skip()
 		while true do
@@ -133,7 +153,7 @@ local function newSourceLexer( text, source )
 
 		position = position + #ident
 
-		if keywords[ident] then
+		if ( lexingSourceCode and source_keywords[ident] ) or ( not lexingSourceCode and bytecode_keywords[ident] ) then
 			object.type = "Keyword"
 		elseif ident == "true" or ident == "false" then
 			object.type = "Boolean"
@@ -217,15 +237,23 @@ local function newSourceLexer( text, source )
 			elseif text:find( "^%d+", position ) then
 				buffer[bIndex] = { type = "IntegerNumber", value = consumePattern "%d+", source = source, line = line }
 
-			elseif symbols[l3] then
+			elseif lexingSourceCode and source_symbols[l3] then
 				position = position + 3
 				buffer[bIndex] = { type = "Symbol", value = l3, source = source, line = line }
 
-			elseif symbols[l2] then
+			elseif lexingSourceCode and source_symbols[l2] then
 				position = position + 2
 				buffer[bIndex] = { type = "Symbol", value = l2, source = source, line = line }
 
-			elseif symbols[l1] then
+			elseif lexingSourceCode and source_symbols[l1] then
+				position = position + 1
+				buffer[bIndex] = { type = "Symbol", value = l1, source = source, line = line }
+
+			elseif not lexingSourceCode and source_symbols[l2] then
+				position = position + 2
+				buffer[bIndex] = { type = "Symbol", value = l2, source = source, line = line }
+
+			elseif not lexingSourceCode and source_symbols[l1] then
 				position = position + 1
 				buffer[bIndex] = { type = "Symbol", value = l1, source = source, line = line }
 			
@@ -246,6 +274,11 @@ local function newSourceLexer( text, source )
 
 	function lexer:back()
 		bIndex = bIndex - 1
+	end
+
+	function lexer:get()
+		self:back()
+		return self:next()
 	end
 
 	function lexer:throw( err )
@@ -279,8 +312,23 @@ local function newSourceLexer( text, source )
 	function lexer:home()
 		bIndex = table.remove( stack, #stack )
 	end
+
+	function lexer:bytecode()
+		lexingSourceCode = false
+	end
+
+	function lexer:source()
+		lexingSourceCode = true
+	end
 	
 	skip()
 
 	return lexer
+end
+
+local newSourceLexer = newLexer
+local function newBytecodeLexer(...)
+	local l = newLexer(...)
+	l:bytecode()
+	return l
 end

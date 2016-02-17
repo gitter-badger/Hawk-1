@@ -1,21 +1,22 @@
 
  -- TYPENAME Identifier {TYPEMOD} ['=' EXPR] {',' Identifier {TYPEMOD} ['=' EXPR]} ';'
 
-local function parseSourceDefinitions( session, typename, name, modifiers )
+local function parseSourceDefinitions( session, source, line, typename, name, modifiers )
 	local lexer = session.lexer
-	local definitions = { type = "definitions", typename = typename }
+	local definitions = { type = "definitions" }
 	local value
 
 	if lexer:consume( "Symbol", ";" ) then
-		definitions[1] = { name = name, modifiers = modifiers }
+		definitions[1] = { typename = typename, name = name, modifiers = modifiers, source = source, line = line }
 		return definitions
 	end
 
 	while not lexer:isEOF() do
 
-		definitions[#definitions + 1] = { name = name, modifiers = modifiers, value = lexer:consume( "Symbol", "=" ) and parseSourceExpression( session ) }
+		definitions[#definitions + 1] = { typename = typename, name = name, modifiers = modifiers, value = lexer:consume( "Symbol", "=" ) and parseSourceExpression( session ), source = source, line = line }
 
 		if lexer:consume( "Symbol", "," ) then
+			source, line = lexer:get().source, lexer:get().line
 			name = lexer:test "Identifier" and lexer:next().value or lexer:throw "expected name"
 			modifiers = parseSourceTypeModifiers( session )
 

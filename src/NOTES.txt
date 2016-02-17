@@ -31,4 +31,21 @@ Try syntax improvement
 	try f;
 	catch an error print( error );
 
-Grrr my amazing class<interface> idea won't work :/
+Compilation parts
+
+	Pass 1:
+		Dead code removal
+		Class flattening
+		Namespace resolution (i.e. X -> A::B::X)
+		Local resolution (i.e. x -> [0])
+		Type checking
+
+	Pass 2:
+		Constant folding
+		Bytecode generation (i.e. x + y -> addi 1 2 3)
+
+	Pass 3:
+		Bytecode optimisation
+
+Done:
+	Dead code removal detection (isSourceStatementTerminal( statement ))

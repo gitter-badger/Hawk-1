@@ -1,12 +1,21 @@
 
-local compileTypeByte = newSourceCompilerIndexable( {}, {} )
-local compileTypeInt = newSourceCompilerIndexable( {}, {} )
-local compileTypeFloat = newSourceCompilerIndexable( {}, {} )
-local compileTypeDouble = newSourceCompilerIndexable( {}, {} )
-local compileTypeChar = newSourceCompilerIndexable( {}, {} )
-local compileTypeString = newSourceCompilerIndexable( {}, {} )
-local compileTypeBool = newSourceCompilerIndexable( {}, {} )
-local compileTypeVoid = newSourceCompilerIndexable( {}, {} )
+local compileTypeByte = newSourceCompilerClass( "byte" )
+local compileTypeInt = newSourceCompilerClass( "int" )
+local compileTypeFloat = newSourceCompilerClass( "float" )
+local compileTypeDouble = newSourceCompilerClass( "double" )
+local compileTypeChar = newSourceCompilerClass( "char" )
+local compileTypeString = newSourceCompilerClass( "string" )
+local compileTypeBool = newSourceCompilerClass( "bool" )
+local compileTypeVoid = newSourceCompilerClass( "void" )
+
+compileTypeByte.instance = newSourceCompilerClass( "byte" )
+compileTypeInt.instance = newSourceCompilerClass( "int" )
+compileTypeFloat.instance = newSourceCompilerClass( "float" )
+compileTypeDouble.instance = newSourceCompilerClass( "double" )
+compileTypeChar.instance = newSourceCompilerClass( "char" )
+compileTypeString.instance = newSourceCompilerClass( "string" )
+compileTypeBool.instance = newSourceCompilerClass( "bool" )
+compileTypeVoid.instance = newSourceCompilerClass( "void" )
 
 @include compile-std.byte
 @include compile-std.int
@@ -24,3 +33,6 @@ compileTypeDouble:addCast( compileTypeInt, compileTypeByte, compileTypeFloat, co
 compileTypeChar:addCast( compileTypeInt, compileTypeByte, compileTypeString )
 compileTypeBool:addCast( compileTypeInt, compileTypeByte, compileTypeString )
 compileTypeVoid:addCast( compileTypeString )
+
+@include compile-std.array
+@include compile-std.table

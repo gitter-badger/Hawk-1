@@ -1,0 +1,55 @@
+
+namespace std {
+
+	class bool {
+
+	}
+
+	class void {
+
+	}
+
+	class char {
+
+	}
+
+	class byte {
+		
+	}
+
+	class int {
+		int random();
+	}
+
+	class float {
+		float random();
+
+		int floor();
+		int ceil();
+		float round(int = 0);
+	}
+
+	class double {
+		double random();
+
+		int floor();
+		int ceil();
+		double round(int = 0);
+	}
+
+	class string {
+		string substr(int);
+		string substr(int, int);
+
+		bool contains(string, int = 0);
+		int find(string, int = 0);
+		string match(string, int = 0);
+
+		int replace(string, string);
+		int remove(string);
+
+		char operator[](int);
+		void operator[](int, char);
+	}
+
+}

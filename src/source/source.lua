@@ -6,7 +6,6 @@ local parseSourceExpression
 local parseSourceType
 local statements = {}
 
-@include sourceLexer
 @include sourceEnvironment
 @include sourceSession
 
@@ -19,7 +18,6 @@ local statements = {}
 
 @include source-definitions.parseEnumDefinition
 @include source-definitions.parseDefinitions
-@include source-definitions.parseFunctionDefinitionParameters
 @include source-definitions.parseFunctionDefinition
 @include source-definitions.parseDefinition
 @include source-common.parseClassBody

@@ -43,7 +43,7 @@ namespace UI {
 		}
 
 		static Button random() {
-			return Button(int.random, int.random, int.random, int.random, "");
+			return Button(int:random(), int:random(), ""); // whoops, forgot I took out the width/height parameters above
 		}
 	}
 }
@@ -61,7 +61,7 @@ void callback:onPress(int keycode) {
 	case keyboard::Keycode.a
 		print "w was pressed";
 	default
-		print "another key was pressed"
+		print "another key was pressed";
 }
 
 keyboard::addCallback(callback);

@@ -15,6 +15,10 @@ local function resolveFilename( root, path, name )
 	end
 end
 
+local header = [[
+@include source-header.hwk
+]]
+
 local function newSourceSession( path )
 	local lexers = {}
 	local paths = { "" }
@@ -67,6 +71,8 @@ local function newSourceSession( path )
 	function session:getFileListing( dir )
 		return fs.isDir( path .. "/" .. dir ) and fs.list( path .. "/" .. dir ) or {}
 	end
+
+	session:addstr( header, "std" )
 
 	return session
 end

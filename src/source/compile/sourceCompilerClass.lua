@@ -1,8 +1,7 @@
 
-local function newSourceCompilerClass( name, members, methods, casts )
-	local class = {}
-
-	class.index = newSourceCompilerIndexable( members, methods )
+local function newSourceCompilerClass( name )
+	local class = newSourceCompilerIndexable()
+	local casts = {}
 
 	function class:init( params )
 		if self.instance and self.instance.index:call( name, false, params ) then
@@ -19,6 +18,10 @@ local function newSourceCompilerClass( name, members, methods, casts )
 		if ... then
 			self:addCast( ... )
 		end
+	end
+
+	function class:tostring()
+		return name
 	end
 
 	return class

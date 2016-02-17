@@ -47,11 +47,16 @@ local function parseSourceClassBody( session, classname )
 											or ( static and static_private or private )
 
 			local start = lexer:mark()
+			local source = lexer:get().source
+			local line = lexer:get().line
+
 			if parseSourceName( session ) == classname and lexer:consume( "Symbol", "(" ) then
-				t[#t + 1] = parseSourceFunctionDefinition( session, classname, classname, {} )
+				t[#t + 1] = parseSourceFunctionDefinition( session, source, line, classname, classname, {} )
+				t[#t].overrides = overrides
 			else
 				lexer:home()
 				t[#t + 1] = parseSourceDefinition( session, true )
+				t[#t].overrides = overrides
 			end
 		end
 	end

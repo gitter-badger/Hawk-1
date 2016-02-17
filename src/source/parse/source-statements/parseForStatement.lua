@@ -22,6 +22,6 @@ local function parseSourceForStatement( session, source, line )
 		value = value;
 		test = test;
 		update = update;
-		block = block;
+		body = block;
 	}
 end

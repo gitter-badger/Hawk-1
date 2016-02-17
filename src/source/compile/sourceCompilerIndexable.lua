@@ -33,7 +33,9 @@ local function matchParameters( desired, given )
 	return total
 end
 
-local function newSourceCompilerIndexable( members, methods )
+local function newSourceCompilerIndexable()
+	local members = {}
+	local methods = {}
 	local index = {}
 
 	function index:addPrivateMember( name, data )

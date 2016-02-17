@@ -1,11 +1,4 @@
 
-local types = {
-	"int", "float", "double", "byte";
-	"char", "string";
-	"bool", "void";
-	"auto";
-}
-
 local function flatten( t )
 	local o = {}
 	for i = 1, #t do
@@ -33,10 +26,6 @@ local function newSourceEnvironment()
 	local environment = {}
 	local namespace = {}
 	local using = { { "std" } }
-
-	for i = 1, #types do
-		environment["std::" .. types[i]] = "class"
-	end
 
 	local env = {}
 

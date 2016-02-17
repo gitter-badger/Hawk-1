@@ -1,2 +1,0 @@
-
-compileTypeByte:addMethod()
