@@ -1,0 +1,29 @@
+
+import IHasParent;
+
+interface IChildContainer {
+	private class<IHasParent> children[];
+
+	auto addChild(class<IHasParent> child) returns child {
+		children:insert(child);
+		child.parent = self;
+		return child;
+	}
+	
+	auto removeChild(class<IHasParent> child) returns child {
+		if children:find(child) {
+			int index = children:indexOf(child);
+			children:remove(index);
+		}
+		return child;
+	}
+
+	bool hasChild(class<IHasParent> child)
+		return children:find(child);
+
+	class<IHasParent> getChildren[]() {
+		class<IHasParent> copy[];
+		for (int i = 0, i < children.length, i++) copy[i] = children[i];
+		return copy;
+	}
+}

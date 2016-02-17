@@ -1,0 +1,41 @@
+
+class Event {
+	string name;
+
+	bool isMouseEvent() return false;
+	bool isTextEvent() return false;
+	bool isKeyboardEvent() return false;
+	bool isWindowEvent() return false;
+}
+
+class MouseEvent extends Event {
+	int x, y;
+	int button;
+	bool isWithin;
+
+	MouseEvent(int x, y, button, bool within) {
+		self.x = x;
+		self.y = y;
+		self.button = button;
+		self.isWithin = within;
+	}
+
+	override Event bool isMouseEvent() return true;
+
+	MouseEvent clone(int x, y, bool within);
+
+	bool isWithinArea(int x, y, width, height);
+}
+
+MouseEvent MouseEvent:clone(int x, y, bool within)
+	return MouseEvent(self.x - x, self.y - y, self.button, self.within && within)
+
+bool MouseEvent:isWithinArea(int x, y, width, height) {
+	if within
+		if x >= self.x
+			if y <= self.y
+				if x < self.x + self.width
+					if y < self.y + self.height
+						return true
+	return false 
+}

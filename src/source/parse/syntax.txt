@@ -1,0 +1,114 @@
+
+STATEMENT:
+	'import' Identifier {'.' Identifier} ';'
+	'if' EXPR BLOCK ['else' BLOCK]
+	'while' EXPR ( BLOCK | ';' )
+	'for' DEFINITION (';' | ',') EXPR (';' | ',') EXPR ( BLOCK | ';' )
+	'for' '(' DEFINITION (';' | ',') EXPR (';' | ',') EXPR ')' ( BLOCK | ';' )
+	'foreach' Identifier [',' Identifier] 'in' EXPR BLOCK
+	'foreach' '(' Identifier [',' Identifier] 'in' EXPR ')' BLOCK
+	'super' [ '(' EXPRLIST ')' ] ';'
+	'return' [EXPR] ';'
+	'break' ';'
+	'continue' ';'
+	'throw' Identifier EXPR ';'
+	'try' BLOCK {'catch' Identifier Identifier BLOCK} ['default' BLOCK]
+	'typename' Identifier '=' TYPE ';'
+	'using' NAME ';'
+	'new' TYPENAME Identifier [ '(' EXPRLIST ')' ] ';'
+	'repeat' [BLOCK] ['until' EXPR ';']
+	'switch' EXPR ';' { ( 'case' EXPR BLOCK ) | ( 'case' '(' EXPR ')' BLOCK ) } [ 'default' BLOCK ]
+	EXTDEFINITION
+	EXPR ';'
+
+BLOCK:
+	'{' {STATEMENT} '}'
+	STATEMENT
+
+EXPR:
+	TERM {BINARY_OPERATOR TERM}
+
+TERM:
+	{UNARY_OPERATOR_LEFT} PRIMARY {UNARY_OPERATOR_RIGHT}
+
+UNARY_OPERATOR_LEFT:
+	'+' | '-' | '!' | '#' | '~' | '--' | '++'
+
+UNARY_OPERATOR_RIGHT:
+	'(' EXPRLIST ')'
+	String
+	'[' EXPR ']'
+	'->' TYPE
+	'.' Identifier
+	':' Identifier '(' EXPRLIST ')'
+	':' Identifier String
+	'++' | '--'
+
+PRIMARY:
+	String
+	DoubleNumber | FloatNumber | IntegerNumber | ByteNumber
+	HexNumber | BinaryNumber
+	Boolean | Null
+	NAME
+	'{' TABLEDEF '}'
+	'[' EXPRLIST ']'
+	'(' EXPR ')'
+
+DEFINITION:
+	TYPENAME Identifier {TYPEMOD} ['=' EXPR] {',' Identifier {TYPEMOD} ['=' EXPR]} ';'
+	TYPENAME Identifier {TYPEMOD} FDEFARGS ';'
+	TYPENAME Identifier {TYPEMOD} FDEFARGS '=' EXPR ';'
+	TYPENAME Identifier {TYPEMOD} FDEFARGS BLOCK
+
+EXTDEFINITION:
+	DEFINITION
+	'class' Identifier ['extends' NAME] ['implements' INTERFACELIST] ( CLASSBODY | ';' )
+	'interface' Identifier ['implements' INTERFACELIST] ( CLASSBODY | ';' )
+	'enum' Identifier '{' Identifier { ( ',' | ';' ) Identifier } '}'
+
+INTERFACELIST:
+	INTERFACE
+	INTERFACE {',' INTERFACE} 'and' INTERFACE
+
+INTERFACE: (involves lookup)
+	NAME
+
+TYPE:
+	TYPENAME {TYPEMOD}
+
+TYPENAME (involves lookup):
+	NAME
+
+TYPEMOD:
+	'{' TYPE '}'
+	'[' ']'
+
+NAME:
+	Identifier {'::' Identifier}
+
+EXPRLIST:
+	[ EXPR {',' EXPR} ]
+
+CLASSDEF:
+
+INTERFACEDEF:
+
+CLASSBODY:
+	{ CLASSSTATEMENT | ('public' ':') | ('private' ':') }
+	{  }
+
+CLASSBODYSTATEMENT:
+	['override' NAME] {'public' | 'private' | 'static'} DEFINITION
+	['override' NAME] {'public' | 'private' | 'static'} #classname# <'('> FDEFARGS ( BLOCK | ';' )
+	'public' ':'
+	'private' ':'
+
+NAMEDEF:
+	'{' { EXTDEFINITION | ( 'namespace' Identifier NAMEDEF ) } '}'
+
+FDEFARGS:
+	'(' ')'
+	'(' TYPENAME Identifier {TYPEMOD} ['=' EXPR] { ',' [TYPENAME] Identifier {TYPEMOD} ['=' EXPR] } ')'
+
+BODY:
+	{ STATEMENT | ( 'namespace' Identifier NAMEDEF ) }

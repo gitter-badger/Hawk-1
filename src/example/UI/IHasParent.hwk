@@ -1,0 +1,6 @@
+
+import IChildContainer;
+
+interface IHasParent {
+	class<IChildContainer> parent;
+}

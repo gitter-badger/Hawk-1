@@ -1,0 +1,25 @@
+
+import Element;
+
+class Button extends Element {
+	string text;
+
+	Button(int x, y, width, height, string text);
+
+	overrides Element void handle(Event event);
+
+	void onClick(int x, y, button) {};
+}
+
+Button:Button(int x, y, width, height, string text) {
+	super(x, y, width, height);
+	self.text = text;
+}
+
+void Button:handle(Event event) {
+	if event:isMouseEvent() {
+		MouseEvent event = event;
+		if event:isWithinArea(self.x, self.y, self.width, self.height)
+			self:onClick(event.x - self.x, event.y - self.y, event.button);
+	}
+}

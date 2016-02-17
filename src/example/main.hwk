@@ -1,0 +1,12 @@
+
+import UI;
+using UI;
+
+int main() {
+	new UI::Button a( 0, 0, 100, 50, "Hello world!" );
+	new UI::Element b( 0, 0, 20, 10 );
+
+	b:addChild( a );
+
+	return 0;
+}

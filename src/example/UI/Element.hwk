@@ -1,0 +1,20 @@
+
+import IHasParent, IChildContainer and Event;
+
+class Element implements IHasParent and IChildContainer {
+	int x, y;
+	int width, height;
+
+	Element(int x, y, width, height);
+
+	void update(dt);
+	void draw();
+	void handle(Event event);
+}
+
+Element:Element(int x, y, width, height) {
+	self.x = x;
+	self.y = y;
+	self.width = width;
+	self.height = height;
+}
