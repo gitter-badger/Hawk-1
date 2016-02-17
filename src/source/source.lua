@@ -73,17 +73,3 @@ statements["typename"] = parseSourceTypenameStatement
 statements["using"] = parseSourceUsingStatement
 statements["new"] = parseSourceNewStatement
 statements["repeat"] = parseSourceRepeatStatement
-
-local session = newSourceSession "Hawk/example"
-local ast = session:addstr [[
-namespace A {
-	namespace B {
-		namespace C {
-			class X;
-		}
-	}
-}
-]]
-local h = fs.open( "Hawk/log", "w" )
-h.write( textutils.serialize( ast ) )
-h.close()

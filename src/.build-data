@@ -1,0 +1,30 @@
+{
+  outputs = {
+    "Hawk/.out",
+  },
+  flags = {
+    "TEST_VM",
+    "TEST_BYTECODE",
+    "TEST_SOURCE",
+  },
+  files = {
+    "main",
+  },
+  paths = {
+    "Hawk/source/parse",
+    "Hawk/source/compile",
+    "Hawk/bytecode/parse",
+    "Hawk/bytecode/compile",
+    "Hawk/VM",
+    "Hawk",
+    "Hawk/source",
+    "Hawk/bytecode",
+    "Hawk/common",
+    "Hawk/common/util",
+  },
+  name = "Hawk",
+  modules = {
+    "file",
+    "conditionals",
+  },
+}
