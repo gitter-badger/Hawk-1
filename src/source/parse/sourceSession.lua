@@ -16,7 +16,7 @@ local function resolveFilename( root, path, name )
 end
 
 local header = [[
-@include source-header.hwk
+@include "stdlib/std.hwk"
 ]]
 
 local function newSourceSession( path )

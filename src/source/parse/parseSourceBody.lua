@@ -6,9 +6,13 @@ function parseSourceBody( session )
 	local lexer = session.lexer
 	while not lexer:isEOF() do
 		if lexer:consume( "Keyword", "namespace" ) then
-			statements[#statements + 1] = parseSourceNamespace( session )
+			for i, v in ipairs( parseSourceNamespace( session ) ) do
+				statements[#statements + 1] = v
+			end
 		elseif lexer:consume( "Keyword", "using" ) then
 			statements[#statements + 1] = parseSourceUsingStatement( session )
+		elseif lexer:consume( "Keyword", "import" ) then
+			statements[#statements + 1] = parseSourceImportStatement( session )
 		else
 			statements[#statements + 1] = parseSourceExtendedDefinition( session )
 		end

@@ -6,7 +6,6 @@
 @include source
 
 local session = newSourceSession "Hawk/example"
-print "---------------------------"
 local ast = session:addstr [[
 namespace A {
 	class X {}

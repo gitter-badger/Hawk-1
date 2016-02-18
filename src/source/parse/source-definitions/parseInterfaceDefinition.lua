@@ -7,7 +7,7 @@ local function parseSourceInterfaceDefinition( session, source, line )
 	local implements = {}
 	local body
 
-	if session.environment:resolve( name ) then
+	if session.environment:testNewEnvironmentType( name ) then
 		lexer:back()
 		lexer:throw( "name '" .. name .. "' cannot be overwritten" )
 	end

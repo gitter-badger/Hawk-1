@@ -7,9 +7,9 @@ local function parseSourceClassDefinition( session, source, line )
 	local extends, implements = nil, {}
 	local body, err
 
-	local nameres = session.environment:resolve( name )
+	local nameres = session.environment:testNewEnvironmentType( name )
 
-	if nameres and session.environment:getEnvironmentType( nameres ) ~= "classdecl" then
+	if nameres and nameres ~= "classdecl" then
 		lexer:back()
 		lexer:throw( "name '" .. name .. "' cannot be overwritten" )
 	end

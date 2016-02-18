@@ -84,6 +84,10 @@ local function newSourceEnvironment()
 		return environment[name]
 	end
 
+	function env:testNewEnvironmentType( name )
+		return self:getEnvironmentType( ( #namespace == 0 and "" or table.concat( namespace, "::" ) .. "::" ) .. name )
+	end
+
 	function env:resolve( name )
 		for i = #scope, 1, -1 do
 			if scope[i][name] then
