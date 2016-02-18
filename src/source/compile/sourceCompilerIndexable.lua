@@ -62,6 +62,13 @@ local function newSourceCompilerIndexable()
 				end
 			end
 		end
+		for i = #methods, 1, -1 do
+			if private_access or methods[i][1] then -- has access or is public
+				if methods[i][2] == name then -- name matches
+					return i, "function"
+				end
+			end
+		end
 	end
 
 	function index:call( name, private_access, parameters )

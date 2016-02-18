@@ -26,39 +26,3 @@ Try/catch system
 			load #std:print 3
 			voidcall 3 1
 	?@
-
-Try syntax improvement
-	try f;
-	catch an error print( error );
-
-Grrrr need to do more with the class name definition
-
-	namespace A {
-		class X {}
-	}
-
-	using A;
-
-	namespace A::B {
-		class X {}
-	}
-
-Compilation parts
-
-	Pass 1:
-		Dead code removal
-		Class flattening
-		Namespace resolution (i.e. X -> A::B::X)
-		Local resolution (i.e. x -> [0])
-		Type checking
-
-	Pass 2:
-		Constant folding
-		Function inlining
-		Bytecode generation (i.e. x + y -> addi 1 2 3)
-
-	Pass 3:
-		Bytecode optimisation (need to think how, first...)
-
-Done:
-	Dead code removal detection (isSourceStatementTerminal( statement ))

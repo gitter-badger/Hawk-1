@@ -55,7 +55,6 @@ local statements = {}
 @include source-common.parseExpression
 @include parseSourceBody
 
-statements["import"] = parseSourceImportStatement
 statements["if"] = parseSourceIfStatement
 statements["while"] = parseSourceWhileStatement
 statements["for"] = parseSourceForStatement
@@ -68,6 +67,5 @@ statements["continue"] = parseSourceContinueStatement
 statements["throw"] = parseSourceThrowStatement
 statements["try"] = parseSourceTryStatement
 statements["typename"] = parseSourceTypenameStatement
-statements["using"] = parseSourceUsingStatement
 statements["new"] = parseSourceNewStatement
 statements["repeat"] = parseSourceRepeatStatement
