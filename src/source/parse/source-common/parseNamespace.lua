@@ -11,10 +11,13 @@ local function parseSourceNamespace( session )
 	if lexer:consume( "Symbol", "{" ) then
 		while not lexer:consume( "Symbol", "}" ) do
 			if lexer:isEOF() then lexer:throw "expected '}'" end
+
 			if lexer:consume( "Keyword", "namespace" ) then
 				for i, v in ipairs( parseSourceNamespace( session ) ) do
 					definitions[#definitions + 1] = v
 				end
+			elseif lexer:consume( "Keyword", "using" ) then
+				parseSourceUsingStatement( session )
 			else
 				definitions[#definitions + 1] = parseSourceExtendedDefinition( session )
 			end

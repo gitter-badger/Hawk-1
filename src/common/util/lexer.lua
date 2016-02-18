@@ -41,8 +41,8 @@ local bytecode_keywords = {
 	[ "class" ]			= true;
 	[ "extends" ]		= true;
 	[ "const" ]			= true;
+	[ "upvalue" ]		= true;
 	[ "block" ]			= true;
-	[ "namespace" ]		= true;
 	[ "body" ]			= true;
 }
 
@@ -106,6 +106,9 @@ local bytecode_symbols = {
 	[ "(" ]		= true;
 	[ ")" ]		= true;
 	[ ";" ]		= true;
+	[ "#" ]		= true;
+	[ "-" ]		= true;
+	[ "::" ]	= true;
 }
 
 local escape_characters = {
@@ -124,7 +127,13 @@ local function newLexer( text, source )
 
 	local function skip()
 		while true do
-			local match = text:match( "^%s+", position )
+			local match
+			if lexingSourceCode then
+				match = text:match( "^%s+", position )
+			else
+				match = text:match( "^[^%S\n]+", position )
+			end
+
 			if match then
 				position = position + #match
 				line = line + select( 2, match:gsub( "\n", "" ) )
@@ -201,6 +210,8 @@ local function newLexer( text, source )
 				return { type = "EOF", value = "EOF", source = source, line = line }
 			end
 
+			skip()
+
 			local l1 = text:sub( position, position )
 			local l2 = text:sub( position, position + 1 )
 			local l3 = text:sub( position, position + 2 )
@@ -241,6 +252,9 @@ local function newLexer( text, source )
 			elseif text:find( "^%d+", position ) then
 				buffer[bIndex] = { type = "IntegerNumber", value = consumePattern "%d+", source = source, line = line }
 
+			elseif l1 == "\n" then
+				buffer[bIndex] = { type = "Newline", value = l1, source = source, line = line }
+
 			elseif lexingSourceCode and source_symbols[l3] then
 				position = position + 3
 				buffer[bIndex] = { type = "Symbol", value = l3, source = source, line = line }
@@ -264,8 +278,6 @@ local function newLexer( text, source )
 			else
 				return error( source .. "[" .. line .. "]: unexpected symbol '" .. l1 .. "'", 0 )
 			end
-			
-			skip()
 		end
 		return buffer[bIndex]
 	end
@@ -306,7 +318,11 @@ local function newLexer( text, source )
 	end
 
 	function lexer:isEOF()
-		return position > #text
+		if not buffer[bIndex + 1] or buffer[bIndex + 1].type == "EOF" then
+			skip()
+			return position > #text
+		end
+		return false
 	end
 
 	function lexer:mark()

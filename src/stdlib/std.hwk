@@ -15,121 +15,113 @@ namespace std {
 	}
 
 	class bool {
-		bool operator && (bool);
-		bool operator || (bool);
-		bool operator ! ();
+		bool operator && (bool) ~~ body: and 1 2 0 }
+		bool operator || (bool) ~~ body: or 1 2 0 }
+		bool operator ! () ~~ body: not 1 0 }
 	}
 
 	class byte {
-		bool operator > (byte); // ~~ body: ltb 2 1 0 }
-		bool operator >= (byte); // ~~ body: lteb 2 1 0 }
-		bool operator < (byte); // ~~ body: ltb 1 2 0 }
-		bool operator <= (byte); // ~~ body: lteb 1 2 0 }
+		bool operator > (byte) ~~ body: ltb 2 1 0 }
+		bool operator >= (byte) ~~ body: lteb 2 1 0 }
+		bool operator < (byte) ~~ body: ltb 1 2 0 }
+		bool operator <= (byte) ~~ body: lteb 1 2 0 }
 
-		bool operator > (int); // ~~ body: btoi 1 1; lti 2 1 0 }
-		bool operator >= (int); // ~~ body: btoi 1 1; ltei 2 1 0 }
-		bool operator < (int); // ~~ body: btoi 1 1; lti 1 2 0 }
-		bool operator <= (int); // ~~ body: btoi 1 1; ltei 1 2 0 }
+		bool operator > (int) ~~ body: btoi 1 1; lti 2 1 0 }
+		bool operator >= (int) ~~ body: btoi 1 1; ltei 2 1 0 }
+		bool operator < (int) ~~ body: btoi 1 1; lti 1 2 0 }
+		bool operator <= (int) ~~ body: btoi 1 1; ltei 1 2 0 }
 
-		bool operator > (double); // ~~ body: btod 1 1; ltd 2 1 0 }
-		bool operator >= (double); // ~~ body: btod 1 1; lted 2 1 0 }
-		bool operator < (double); // ~~ body: btod 1 1; ltd 1 2 0 }
-		bool operator <= (double); // ~~ body: btod 1 1; lted 1 2 0 }
+		bool operator > (double) ~~ body: btod 1 1; ltd 2 1 0 }
+		bool operator >= (double) ~~ body: btod 1 1; lted 2 1 0 }
+		bool operator < (double) ~~ body: btod 1 1; ltd 1 2 0 }
+		bool operator <= (double) ~~ body: btod 1 1; lted 1 2 0 }
 
-		int operator + (int);
-		int operator - (int);
-		int operator * (int);
-		int operator / (int);
-		int operator % (int);
-		int operator ** (int);
+		int operator + (int) ~~ body: btoi 1 1; addi 1 2 0 }
+		int operator - (int) ~~ body: btoi 1 1; subi 1 2 0 }
+		int operator * (int) ~~ body: btoi 1 1; muli 1 2 0 }
+		int operator / (int) ~~ body: btoi 1 1; divi 1 2 0 }
+		int operator % (int) ~~ body: btoi 1 1; modi 1 2 0 }
+		int operator ** (int) ~~ body: btoi 1 1; powi 1 2 0 }
 
-		byte operator + (byte);
-		byte operator - (byte);
-		byte operator * (byte);
-		byte operator / (byte);
-		byte operator % (byte);
-		byte operator ** (byte);
+		byte operator + (byte) ~~ body: addb 1 2 0 }
+		byte operator - (byte) ~~ body: subb 1 2 0 }
+		byte operator * (byte) ~~ body: mulb 1 2 0 }
+		byte operator / (byte) ~~ body: divb 1 2 0 }
+		byte operator % (byte) ~~ body: modb 1 2 0 }
+		byte operator ** (byte) ~~ body: powb 1 2 0 }
 
-		double operator + (double);
-		double operator - (double);
-		double operator * (double);
-		double operator / (double);
-		double operator % (double);
-		double operator ** (double);
+		double operator + (double) ~~ body: btod 1 1; addd 1 2 0 }
+		double operator - (double) ~~ body: btod 1 1; subd 1 2 0 }
+		double operator * (double) ~~ body: btod 1 1; muld 1 2 0 }
+		double operator / (double) ~~ body: btod 1 1; divd 1 2 0 }
+		double operator % (double) ~~ body: btod 1 1; modd 1 2 0 }
+		double operator ** (double) ~~ body: btod 1 1; powd 1 2 0 }
 
-		byte operator & (byte);
-		byte operator | (byte);
-		byte operator ^ (byte);
-		byte operator << (byte);
-		byte operator >> (byte);
+		byte operator & (byte) ~~ body: bandb 1 2 0 }
+		byte operator | (byte) ~~ body: borb 1 2 0 }
+		byte operator ^ (byte) ~~ body: bxorb 1 2 0 }
+		byte operator << (byte) ~~ body: blshiftb 1 2 0 }
+		byte operator >> (byte) ~~ body: brshiftb 1 2 0 }
 
-		int operator & (int);
-		int operator | (int);
-		int operator ^ (int);
-		int operator << (int);
-		int operator >> (int);
+		int operator & (int) ~~ body: btoi 1 1; bandi 1 2 0 }
+		int operator | (int) ~~ body: btoi 1 1; bori 1 2 0 }
+		int operator ^ (int) ~~ body: btoi 1 1; bxori 1 2 0 }
+		int operator << (int) ~~ body: btoi 1 1; blshifti 1 2 0 }
+		int operator >> (int) ~~ body: btoi 1 1; brshifti 1 2 0 }
 
-		byte operator ~ ();
+		byte operator ~ () ~~ body: bnotb 1 0 }
 	}
 
 	class int {
-		int random();
-
 		// the following should work when I add in inline bytecode parsing
-		bool operator > (int); // ~~ body: lti 2 1 0 }
-		bool operator >= (int); // ~~ body: ltei 2 1 0 }
-		bool operator < (int); // ~~ body: lti 1 2 0 }
-		bool operator <= (int); // ~~ body: ltei 1 2 0 }
+		bool operator > (int) ~~ body: lti 2 1 0 }
+		bool operator >= (int) ~~ body: ltei 2 1 0 }
+		bool operator < (int) ~~ body: lti 1 2 0 }
+		bool operator <= (int) ~~ body: ltei 1 2 0 }
 
-		bool operator > (double); // ~~ body: itod 1 1; ltd 2 1 0 }
-		bool operator >= (double); // ~~ body: itod 1 1; lted 2 1 0 }
-		bool operator < (double); // ~~ body: itod 1 1; ltd 1 2 0 }
-		bool operator <= (double); // ~~ body: itod 1 1; lted 1 2 0 }
+		bool operator > (double) ~~ body: itod 1 1; ltd 2 1 0 }
+		bool operator >= (double) ~~ body: itod 1 1; lted 2 1 0 }
+		bool operator < (double) ~~ body: itod 1 1; ltd 1 2 0 }
+		bool operator <= (double) ~~ body: itod 1 1; lted 1 2 0 }
 
-		int operator + (int);
-		int operator - (int);
-		int operator * (int);
-		int operator / (int);
-		int operator % (int);
-		int operator ** (int);
+		int operator + (int) ~~ body: addi 1 2 0 }
+		int operator - (int) ~~ body: subi 1 2 0 }
+		int operator * (int) ~~ body: muli 1 2 0 }
+		int operator / (int) ~~ body: divi 1 2 0 }
+		int operator % (int) ~~ body: modi 1 2 0 }
+		int operator ** (int) ~~ body: powi 1 2 0 }
 
-		double operator + (double);
-		double operator - (double);
-		double operator * (double);
-		double operator / (double);
-		double operator % (double);
-		double operator ** (double);
+		double operator + (double) ~~ body: btod 1 1; addd 1 2 0 }
+		double operator - (double) ~~ body: btod 1 1; subd 1 2 0 }
+		double operator * (double) ~~ body: btod 1 1; muld 1 2 0 }
+		double operator / (double) ~~ body: btod 1 1; divd 1 2 0 }
+		double operator % (double) ~~ body: btod 1 1; modd 1 2 0 }
+		double operator ** (double) ~~ body: btod 1 1; powd 1 2 0 }
 
-		int operator & (int);
-		int operator | (int);
-		int operator ^ (int);
-		int operator << (int);
-		int operator >> (int);
+		int operator & (int) ~~ body: bandi 1 2 0 }
+		int operator | (int) ~~ body: bori 1 2 0 }
+		int operator ^ (int) ~~ body: bxori 1 2 0 }
+		int operator << (int) ~~ body: blshifti 1 2 0 }
+		int operator >> (int) ~~ body: brshifti 1 2 0 }
 
-		int operator ~ ();
+		int operator ~ () ~~ body: bnoti 1 0 }
 	}
 
 	class float {
-		float random();
+		bool operator > (float) ~~ body: ltf 2 1 0 }
+		bool operator >= (float) ~~ body: ltef 2 1 0 }
+		bool operator < (float) ~~ body: ltf 1 2 0 }
+		bool operator <= (float) ~~ body: ltef 1 2 0 }
 
-		int floor();
-		int ceil();
-		float round(int = 0);
-
-		bool operator > (float); // ~~ body: ltf 2 1 0 }
-		bool operator >= (float); // ~~ body: ltef 2 1 0 }
-		bool operator < (float); // ~~ body: ltf 1 2 0 }
-		bool operator <= (float); // ~~ body: ltef 1 2 0 }
-
-		bool operator > (int); // ~~ body: ftoi 1 1; lti 2 1 0 }
-		bool operator >= (int); // ~~ body: ftoi 1 1; ltei 2 1 0 }
-		bool operator < (int); // ~~ body: ftoi 1 1; lti 1 2 0 }
-		bool operator <= (int); // ~~ body: ftoi 1 1; ltei 1 2 0 }
+		bool operator > (int) ~~ body: ftoi 1 1; lti 2 1 0 }
+		bool operator >= (int) ~~ body: ftoi 1 1; ltei 2 1 0 }
+		bool operator < (int) ~~ body: ftoi 1 1; lti 1 2 0 }
+		bool operator <= (int) ~~ body: ftoi 1 1; ltei 1 2 0 }
 		
-		bool operator > (double); // ~~ body: ftod 1 1; ltd 2 1 0 }
-		bool operator >= (double); // ~~ body: ftod 1 1; lted 2 1 0 }
-		bool operator < (double); // ~~ body: ftod 1 1; ltd 1 2 0 }
-		bool operator <= (double); // ~~ body: ftod 1 1; lted 1 2 0 }
+		bool operator > (double) ~~ body: ftod 1 1; ltd 2 1 0 }
+		bool operator >= (double) ~~ body: ftod 1 1; lted 2 1 0 }
+		bool operator < (double) ~~ body: ftod 1 1; ltd 1 2 0 }
+		bool operator <= (double) ~~ body: ftod 1 1; lted 1 2 0 }
 
 		float operator + (int);
 		float operator - (int);
@@ -154,21 +146,15 @@ namespace std {
 	}
 
 	class double {
-		double random();
-
-		int floor();
-		int ceil();
-		double round(int = 0);
-
-		bool operator > (int); // ~~ body: dtoi 1 1; lti 2 1 0 }
-		bool operator >= (int); // ~~ body: dtoi 1 1; ltei 2 1 0 }
-		bool operator < (int); // ~~ body: dtoi 1 1; lti 1 2 0 }
-		bool operator <= (int); // ~~ body: dtoi 1 1; ltei 1 2 0 }
+		bool operator > (int) ~~ body: dtoi 1 1; lti 2 1 0 }
+		bool operator >= (int) ~~ body: dtoi 1 1; ltei 2 1 0 }
+		bool operator < (int) ~~ body: dtoi 1 1; lti 1 2 0 }
+		bool operator <= (int) ~~ body: dtoi 1 1; ltei 1 2 0 }
 		
-		bool operator > (double); // ~~ body: ltd 2 1 0 }
-		bool operator >= (double); // ~~ body: lted 2 1 0 }
-		bool operator < (double); // ~~ body: ltd 1 2 0 }
-		bool operator <= (double); // ~~ body: lted 1 2 0 }
+		bool operator > (double) ~~ body: ltd 2 1 0 }
+		bool operator >= (double) ~~ body: lted 2 1 0 }
+		bool operator < (double) ~~ body: ltd 1 2 0 }
+		bool operator <= (double) ~~ body: lted 1 2 0 }
 
 		float operator + (int);
 		float operator - (int);
@@ -186,16 +172,6 @@ namespace std {
 	}
 
 	class string {
-		string substr(int);
-		string substr(int, int);
-
-		bool contains(string, int = 0);
-		int find(string, int = 0);
-		string match(string, int = 0);
-
-		int replace(string, string);
-		int remove(string);
-
 		char operator[](int);
 		void operator[](int, char);
 
@@ -212,7 +188,8 @@ namespace std {
 
 	namespace console {
 
-		void print(string); // things like these will be sorted out compile-time
+		// std::console::print/write will be resolved by the bytecode parser/executable generator
+		void print(string);
 		void write(string);
 
 	}

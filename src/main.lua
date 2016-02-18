@@ -6,21 +6,13 @@
 @include source
 
 local session = newSourceSession "Hawk/example"
-local ast = session:addstr [[
-namespace A {
-	class X {}
-}
 
-using A;
-
-namespace A::B {
-	class X {}
-}
-
-void f() {
-	console::print "hi";
-}
+session:addstr [[
+void f(int a, b) ~~ body: addi 1 2 0 }
 ]]
+
 local h = fs.open( "Hawk/log", "w" )
-h.write( textutils.serialize( ast ) )
+for i, v in ipairs( session:getDefinitions() ) do
+	h.writeLine( textutils.serialize( v ) )
+end
 h.close()

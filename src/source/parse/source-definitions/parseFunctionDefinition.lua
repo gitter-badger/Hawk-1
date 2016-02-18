@@ -45,6 +45,9 @@ local function parseSourceFunctionDefinition( session, source, line, typename, n
 	if namegiven == nil then namegiven = true end
 
 	if lexer:consume( "Symbol", "=" ) then
+		if not namegiven then
+			lexer:throw "cannot parse source block with un-named parameters"
+		end
 		local expr = parseSourceExpression( session );
 		return lexer:consume( "Symbol", ";" ) and {
 			source = source, line = line;
@@ -56,8 +59,20 @@ local function parseSourceFunctionDefinition( session, source, line, typename, n
 			expr = expr
 		} or lexer:throw "expected ';'"
 	elseif lexer:consume( "Symbol", "~~" ) then
-		-- parse bytecode body
-		-- return
+		lexer:bytecode()
+		local environment, instructions = parseBytecodeBody( lexer )
+		lexer:source()
+
+		return {
+			source = source, line = line;
+			type = "bfuncdef";
+			typename = typename;
+			modifiers = modifiers;
+			name = name;
+			parameters = parameters;
+			environment = environment;
+			instructions = instructions;
+		}
 	end
 
 	session.environment:push()

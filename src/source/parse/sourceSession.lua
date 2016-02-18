@@ -15,18 +15,20 @@ local function resolveFilename( root, path, name )
 	end
 end
 
-local header = [[
-@include "stdlib/std.hwk"
-]]
+local header = [[@include "stdlib/std.hwk"]]
 
 local function newSourceSession( path )
 	local lexers = {}
 	local paths = { "" }
 	local imported = {}
-	local importlist = {}
+	local definitions = {}
 	local session = {}
 
 	session.environment = newSourceEnvironment()
+
+	function session:addDefinition( definition )
+		definitions[#definitions + 1] = definition
+	end
 
 	function session:import( filename )
 		local file = resolveFilename( path, paths[#paths], filename )
@@ -39,13 +41,10 @@ local function newSourceSession( path )
 
 		local h = fs.open( file, "r" )
 		local content = h.readAll()
-		local body
 
 		h.close()
-		body = self:addstr( content, filename )
+		self:addstr( content, filename )
 		paths[#paths] = nil
-
-		return body
 	end
 
 	function session:addstr( str, src )
@@ -59,13 +58,13 @@ local function newSourceSession( path )
 		lexers[#lexers] = nil
 		self.lexer = lexers[#lexers]
 
-		importlist[#importlist + 1] = body
-
-		return body
+		for i = 1, #body do
+			definitions[#definitions + 1] = body[i]
+		end
 	end
 
-	function session:getimportlist()
-		return importlist
+	function session:getDefinitions()
+		return definitions
 	end
 
 	function session:getFileListing( dir )

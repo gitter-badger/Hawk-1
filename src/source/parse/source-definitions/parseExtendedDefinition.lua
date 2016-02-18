@@ -18,7 +18,7 @@ local function parseSourceExtendedDefinition( session )
 	if parseSourceTypename( session ) then
 		lexer:home()
 		return parseSourceDefinition( session )
-		
+
 	elseif lexer:consume( "Keyword", "class" ) then
 		return parseSourceClassDefinition( session, source, line )
 
