@@ -1,6 +1,8 @@
 
 ## Hawk
 
+[![Join the chat at https://gitter.im/Exerro/Hawk](https://badges.gitter.im/Exerro/Hawk.svg)](https://gitter.im/Exerro/Hawk?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Hawk is a programming language somewhat like C but focussed slightly more around OOP.
 
 An example of its syntax is shown below:
